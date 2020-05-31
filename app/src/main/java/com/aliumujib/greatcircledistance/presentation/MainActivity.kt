@@ -1,23 +1,18 @@
-package com.aliumujib.greatcircledistance
+package com.aliumujib.greatcircledistance.presentation
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aliumujib.greatcircledistance.R
 import com.aliumujib.greatcircledistance.adapters.CustomerClickListener
 import com.aliumujib.greatcircledistance.adapters.CustomerListAdapter
 import com.aliumujib.greatcircledistance.adapters.ListSpacingItemDecorator
 import com.aliumujib.greatcircledistance.databinding.ActivityMainBinding
 import com.aliumujib.greatcircledistance.ext.dpToPx
-import com.aliumujib.greatcircledistance.lib.GreatCircleDistance
 import com.aliumujib.greatcircledistance.lib.models.Customer
-
-import java.io.BufferedReader
-import java.io.FileNotFoundException
 
 class MainActivity : AppCompatActivity(), CustomerClickListener {
 
@@ -36,15 +31,7 @@ class MainActivity : AppCompatActivity(), CustomerClickListener {
     }
 
     private fun fetchData() {
-        val greatCircleCalculator = GreatCircleDistance.getInstance()
-        greatCircleCalculator.init("be")
-        readInputFile(this, "customers.txt")?.let { it ->
-            val eligible = greatCircleCalculator.fetchEligibleCustomers(it, 53.339428, -6.257664, 100.0)
-            eligible.forEach {
-                Log.d("MAIN", "$it")
-            }
-            (binding.recyclerView.adapter as CustomerListAdapter).submitList(eligible)
-        }
+
     }
 
     private fun setupRV() {
@@ -56,14 +43,6 @@ class MainActivity : AppCompatActivity(), CustomerClickListener {
         }
     }
 
-    private fun readInputFile(context: Context, inputFile: String): BufferedReader? {
-        return try {
-            context.assets.open(inputFile).bufferedReader()
-        } catch (ex: FileNotFoundException) {
-            ex.printStackTrace()
-            null
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
