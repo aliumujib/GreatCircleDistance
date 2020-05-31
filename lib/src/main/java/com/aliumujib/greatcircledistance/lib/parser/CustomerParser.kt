@@ -6,6 +6,14 @@ import java.io.BufferedReader
 
 class CustomerParser : ICustomerParser {
 
+    /**
+     * Method that iterates the content of a [BufferedReader], parses it and returns a list of customers
+     * sorted by UserID
+     *
+     * @param reader [BufferedReader] ready to spit some file contents
+     * @return The sorted list of customers
+     */
+
     override fun parseCustomers(reader: BufferedReader): List<Customer> {
         val customerList: MutableList<Customer> = mutableListOf()
         val iterator = reader.lineSequence().iterator()

@@ -1,6 +1,7 @@
 package com.aliumujib.greatcircledistance.lib
 
 import com.aliumujib.greatcircledistance.lib.distances.IDistanceCalc
+import com.aliumujib.greatcircledistance.lib.main.GreatCircleDistance
 import com.aliumujib.greatcircledistance.lib.models.Customer
 import com.aliumujib.greatcircledistance.lib.parser.ICustomerParser
 import com.aliumujib.greatcircledistance.lib.storage.IStore
@@ -10,7 +11,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import konveyor.base.randomBuild
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.BufferedReader
@@ -40,11 +40,11 @@ class GreatCircleDistanceTest {
 
     @Test(expected = IllegalStateException::class)
     fun `check that calling fetchEligibleCustomers without having called init throws an exception`() {
-        val results = greatCircleDistance.fetchEligibleCustomers(bufferedReader, randomBuild(), randomBuild(), randomBuild())
+        val results = greatCircleDistance.runQuery(bufferedReader, randomBuild(), randomBuild(), randomBuild())
         verify(exactly = 0) {
             parser.parseCustomers(bufferedReader)
             distanceCalc.findDistanceInKm(any(), any(), any(), any())
-            store.storeResults(results, any())
+            store.storeResults(any(), any())
             bufferedReader.close()
         }
     }
@@ -55,11 +55,10 @@ class GreatCircleDistanceTest {
         stubParseResults(customerList)
         val saveDir = "testDir"
         greatCircleDistance.init(saveDir)
-        val results =
-            greatCircleDistance.fetchEligibleCustomers(bufferedReader, 53.339428, -6.257664, 100.0)
+        val results = greatCircleDistance.runQuery(bufferedReader, 53.339428, -6.257664, 100.0)
         verify(exactly = 1) {
             parser.parseCustomers(bufferedReader)
-            store.storeResults(results, any())
+            store.storeResults(any(), any())
             bufferedReader.close()
         }
     }
