@@ -5,6 +5,8 @@ import com.aliumujib.greatcircledistance.lib.models.Customer
 import com.aliumujib.greatcircledistance.lib.parser.ICustomerParser
 import com.aliumujib.greatcircledistance.lib.storage.IStore
 import com.aliumujib.greatcircledistance.lib.utils.DummyDataFactory
+import com.google.common.truth.Truth
+import com.google.common.truth.Truth.*
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -49,17 +51,20 @@ class GreatCircleDistanceTest {
     }
 
     @Test
-    fun `check that calling fetchEligibleCustomers calls correct methods`() {
+    fun `check that calling fetchEligibleCustomers calls correct methods and all results are within the specified radius`() {
         val customerList = DummyDataFactory.generateDummyCustomerList(10)
         stubParseResults(customerList)
         val saveDir = "testDir"
+        val radius = (10..100).random().toDouble()
         greatCircleDistance.init(saveDir)
-        val results = greatCircleDistance.runQuery(bufferedReader, 53.339428, -6.257664, 100.0)
+        val results = greatCircleDistance.runQuery(bufferedReader, 53.339428, -6.257664, radius)
         verify(exactly = 1) {
             parser.parseCustomers(bufferedReader)
             store.storeResults(any(), any())
             bufferedReader.close()
         }
+        val maximumDistance :Double? = results.customerData?.map { it.distance_from_location }?.max()
+        assertThat(maximumDistance).isAtMost(radius)
     }
 
     private fun stubParseResults(list: List<Customer>) {

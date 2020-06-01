@@ -59,11 +59,11 @@ class GreatCircleDistance(private val parser: ICustomerParser,
             customerList.forEach {
                 it.distance_from_location = distanceCalc.findDistanceInKm(it.latitude.toDouble(), it.longitude.toDouble(), destinationLatitude, destinationLongitude)
             }
-           val fileURL =  store.storeResults(customerList, makeStorageFile(storageDir))
             val filteredResults = customerList.filter {
                 it.distance_from_location <= minDistance
             }
-            return Result(null,filteredResults, fileURL)
+            val fileURL =  store.storeResults(filteredResults, makeStorageFile(storageDir))
+            return Result(null, filteredResults, fileURL)
         } ?: throw IllegalStateException("You can't fetchEligibleCustomers until you call init ;0")
     }
 
