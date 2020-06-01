@@ -1,7 +1,6 @@
 package com.aliumujib.greatcircledistance.lib.distances
 
 import com.google.common.truth.Truth.assertThat
-import io.mockk.MockKAnnotations
 import org.junit.Before
 import org.junit.Test
 
@@ -12,7 +11,7 @@ class DistanceCalculatorTest {
 
     @Before
     fun setup() {
-        MockKAnnotations.init(this, relaxed = true)
+
     }
 
 

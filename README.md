@@ -46,7 +46,7 @@ Models that can be used for data and result representation are under ```/src/mai
 
 There is a separate class encapsulating distance calculation - ```/src/main/java/com/aliumujib/greatcircledistance/lib/distances/DistanceCalculator.kt```.
 
-The classe responsible for writing results to a file - ```/src/main/java/com/aliumujib/greatcircledistance/lib/sotrage/FileStore.kt```.
+The class responsible for writing results to a file - ```/src/main/java/com/aliumujib/greatcircledistance/lib/sotrage/FileStore.kt```.
 
-Test and test files are located inside the ```test/java/com/aliumujib/greatcircledistance/lib/``` directory.
+Tests and test utility files are located inside the ```test/java/com/aliumujib/greatcircledistance/lib/``` directory.
 

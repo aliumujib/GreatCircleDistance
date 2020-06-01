@@ -22,9 +22,7 @@ class CustomerParser : ICustomerParser {
             customerList.add(Gson().fromJson(customer, Customer::class.java))
         }
         reader.close()
-        return customerList.sortedBy {
-            it.user_id
-        }
+        return customerList
     }
 
 }
