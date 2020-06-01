@@ -22,8 +22,7 @@ Click through the menu as follows:
 - File -> New -> Import Project
 
 <img src="sc/import.png" />
- 
- 
+   
 ## Usage
 
 - Run program in IntelliJ IDEA.
@@ -35,11 +34,14 @@ Click through the menu as follows:
 
 <img src="sc/tests.png" />
 
+#Sample Output
+A sample output file can be found at https://github.com/aliumujib/GreatCircleDistance/blob/master/lib/src/main/resources/results_1590975440303.txt
+
 ## Project structure
  
 Entry class is located at ```/src/main/java/com/aliumujib/greatcircledistance/lib/main.kt```, it is a simple main.kt class.
 
-Models that can be used for data and result representation are under ```/src/main/java/com/aliumujib/greatcircledistance/lib/models``` directory (```\Sivaschenko\Intercom\Model``` namespace).
+Models that can be used for data and result representation are under ```/src/main/java/com/aliumujib/greatcircledistance/lib/models```.
 
 There is a separate class encapsulating distance calculation - ```/src/main/java/com/aliumujib/greatcircledistance/lib/distances/DistanceCalculator.kt```.
 
