@@ -86,20 +86,11 @@ class GreatCircleDistance(private val parser: ICustomerParser,
     }
 
     companion object{
-        private val mainInstance =
-            GreatCircleDistance(
-                di().parser,
-                di().store,
-                di().distanceCalc
-            )
 
         @JvmStatic
-        fun getInstance()  =
-            mainInstance
-
-        @JvmStatic
-        fun newInstance(parser: ICustomerParser, store: IStore, distanceCalc: IDistanceCalc)  =
-            GreatCircleDistance(
+        fun instance(parser: ICustomerParser = di().parser,
+                     store: IStore = di().store,
+                     distanceCalc: IDistanceCalc = di().distanceCalc)  = GreatCircleDistance(
                 parser,
                 store,
                 distanceCalc

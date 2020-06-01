@@ -17,9 +17,10 @@ class CustomerParser : ICustomerParser {
     override fun parseCustomers(reader: BufferedReader): List<Customer> {
         val customerList: MutableList<Customer> = mutableListOf()
         val iterator = reader.lineSequence().iterator()
+        val gSon = Gson()
         while (iterator.hasNext()) {
             val customer = iterator.next()
-            customerList.add(Gson().fromJson(customer, Customer::class.java))
+            customerList.add(gSon.fromJson(customer, Customer::class.java))
         }
         reader.close()
         return customerList

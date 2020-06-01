@@ -39,7 +39,7 @@ class GreatCircleDistanceTest {
         MockKAnnotations.init(this, relaxed = true)
 
         bufferedReader = this.javaClass.classLoader.getResourceAsStream("customers.txt")!!.bufferedReader()
-        greatCircleDistance = GreatCircleDistance.newInstance(parser, store, distanceCalc)
+        greatCircleDistance = GreatCircleDistance.instance(parser, store, distanceCalc)
     }
 
     @Test(expected = IllegalStateException::class)
