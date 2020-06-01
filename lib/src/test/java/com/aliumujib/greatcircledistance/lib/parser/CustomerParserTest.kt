@@ -1,6 +1,5 @@
 package com.aliumujib.greatcircledistance.lib.parser
 
-import com.aliumujib.greatcircledistance.lib.models.Customer
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -9,25 +8,25 @@ import java.io.BufferedReader
 class CustomerParserTest {
 
     private val customerParser = CustomerParser()
-    private lateinit var bufferedReader: BufferedReader
 
     @Before
     fun setUp() {
-        bufferedReader = this.javaClass.classLoader.getResourceAsStream("customers.txt")!!.bufferedReader()
+
     }
 
+    /**
+    * Created multiple buffered here because I wanted to programmatically fetch the line count and calling count() on a [BufferedReader] effectively
+     * reads the file and makes content length == 0.
+    **/
+
     @Test
-    fun `assert that parseCustomers returns sorted data`() {
-        val results = customerParser.parseCustomers(bufferedReader)
-        assertThat(results).isInOrder(Comparator<Customer> { t, t2 ->
-            when {
-                t.user_id == t2.user_id -> {
-                    0
-                }
-                t.user_id > t2.user_id -> 1
-                else -> -1
-            }
-        })
+    fun `assert that parseCustomers parses all possible records`() {
+        val countReader:BufferedReader = this.javaClass.classLoader.getResourceAsStream("customers.txt")!!.bufferedReader()
+        val lineCount:Int = countReader.lineSequence().count()
+
+        val recordReader = this.javaClass.classLoader.getResourceAsStream("customers.txt")!!.bufferedReader()
+        val customerRecords = customerParser.parseCustomers(recordReader)
+        assertThat(lineCount).isEqualTo(customerRecords.size)
     }
 
 }

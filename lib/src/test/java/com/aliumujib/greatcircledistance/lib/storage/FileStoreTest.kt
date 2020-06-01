@@ -18,7 +18,7 @@ class FileStoreTest {
     }
 
     @Test
-    fun `assert that storeResults returns non null file URL when everything is correct`() {
+    fun `assert that storeResults returns non null file URL when write operation a success`() {
         val customerList = DummyDataFactory.generateDummyCustomerList(10)
         var file: File? = null
         try {
@@ -50,6 +50,7 @@ class FileStoreTest {
             val bufferedReader =  BufferedReader(FileReader(url))
             val fileContentCount = bufferedReader.lineSequence().count()
             assertThat(customerList.size).isEqualTo(fileContentCount)
+            bufferedReader.close()
         } catch (ioe: IOException) {
             ioe.printStackTrace()
         } finally {

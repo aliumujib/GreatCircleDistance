@@ -1,11 +1,13 @@
 package com.aliumujib.greatcircledistance.lib.main
 
 import com.aliumujib.greatcircledistance.lib.distances.IDistanceCalc
+import com.aliumujib.greatcircledistance.lib.exceptions.NoEligibleCustomerException
+import com.aliumujib.greatcircledistance.lib.exceptions.StorageErrorException
 import com.aliumujib.greatcircledistance.lib.models.Customer
+import com.aliumujib.greatcircledistance.lib.models.Result
 import com.aliumujib.greatcircledistance.lib.parser.ICustomerParser
 import com.aliumujib.greatcircledistance.lib.storage.IStore
 import com.aliumujib.greatcircledistance.lib.utils.DummyDataFactory
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.*
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -15,6 +17,7 @@ import konveyor.base.randomBuild
 import org.junit.Before
 import org.junit.Test
 import java.io.BufferedReader
+import java.lang.Error
 import java.lang.IllegalStateException
 
 
@@ -51,7 +54,7 @@ class GreatCircleDistanceTest {
     }
 
     @Test
-    fun `check that calling fetchEligibleCustomers calls correct methods and all results are within the specified radius`() {
+    fun `check that calling fetchEligibleCustomers calls correct methods`() {
         val customerList = DummyDataFactory.generateDummyCustomerList(10)
         stubParseResults(customerList)
         val saveDir = "testDir"
@@ -63,8 +66,49 @@ class GreatCircleDistanceTest {
             store.storeResults(any(), any())
             bufferedReader.close()
         }
-        val maximumDistance :Double? = results.customerData?.map { it.distance_from_location }?.max()
+    }
+
+    @Test
+    fun `check that calling fetchEligibleCustomers returns results within the specified radius`() {
+        val customerList = DummyDataFactory.generateDummyCustomerList(10)
+        stubParseResults(customerList)
+        val saveDir = "testDir"
+        val radius = (10..100).random().toDouble()
+        greatCircleDistance.init(saveDir)
+        val results = greatCircleDistance.runQuery(bufferedReader, 53.339428, -6.257664, radius)
+        assertThat(results).isInstanceOf(Result.Success::class.java)
+        val maximumDistance :Double? = (results as Result.Success).customerData.map { it.distance_from_location }.max()
         assertThat(maximumDistance).isAtMost(radius)
+    }
+
+    @Test
+    fun `check that calling fetchEligibleCustomers returns sorted results`() {
+        val customerList = DummyDataFactory.generateDummyCustomerList(10)
+        stubParseResults(customerList)
+        val saveDir = "testDir"
+        val radius = (10..100).random().toDouble()
+        greatCircleDistance.init(saveDir)
+        val results = greatCircleDistance.runQuery(bufferedReader, 53.339428, -6.257664, radius)
+        assertThat(results).isInstanceOf(Result.Success::class.java)
+        assertThat((results as Result.Success).customerData).isInOrder(Comparator<Customer> { t, t2 ->
+            when {
+                t.user_id == t2.user_id -> {
+                    0
+                }
+                t.user_id > t2.user_id -> 1
+                else -> -1
+            }
+        })
+    }
+
+    @Test
+    fun `check that calling makeResults returns correct exception types`() {
+        val storageErrorResult:Result = greatCircleDistance.makeResult(null, DummyDataFactory.generateDummyCustomerList(10), randomBuild())
+        assertThat((storageErrorResult as Result.Error).error).isInstanceOf(StorageErrorException::class.java)
+
+        val emptyListResult:Result = greatCircleDistance.makeResult(null, emptyList(), randomBuild())
+        assertThat((emptyListResult as Result.Error).error).isInstanceOf(NoEligibleCustomerException::class.java)
+
     }
 
     private fun stubParseResults(list: List<Customer>) {
