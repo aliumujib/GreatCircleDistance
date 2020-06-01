@@ -34,7 +34,7 @@ Click through the menu as follows:
 
 <img src="sc/tests.png" />
 
-#Sample Output
+## Sample Output
 
 A sample output file can be found at https://github.com/aliumujib/GreatCircleDistance/blob/master/lib/src/main/resources/results_1590975440303.txt
 
