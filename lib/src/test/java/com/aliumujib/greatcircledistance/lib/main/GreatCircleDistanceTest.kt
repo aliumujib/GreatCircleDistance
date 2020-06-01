@@ -1,7 +1,6 @@
-package com.aliumujib.greatcircledistance.lib
+package com.aliumujib.greatcircledistance.lib.main
 
 import com.aliumujib.greatcircledistance.lib.distances.IDistanceCalc
-import com.aliumujib.greatcircledistance.lib.main.GreatCircleDistance
 import com.aliumujib.greatcircledistance.lib.models.Customer
 import com.aliumujib.greatcircledistance.lib.parser.ICustomerParser
 import com.aliumujib.greatcircledistance.lib.storage.IStore
