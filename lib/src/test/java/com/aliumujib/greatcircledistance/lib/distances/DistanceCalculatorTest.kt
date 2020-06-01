@@ -28,7 +28,7 @@ class DistanceCalculatorTest {
 
         val expectedDistance2 = 89.119
         val result2: Double = distanceCalc.findDistanceInKm(54.133333, -6.433333, 53.339428, -6.257664)
-        assertThat(result1).isWithin(1.0).of(expectedDistance1)
+        assertThat(result2).isWithin(1.0).of(expectedDistance2)
     }
 
 }
