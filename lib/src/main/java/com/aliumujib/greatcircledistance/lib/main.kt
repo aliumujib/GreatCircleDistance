@@ -11,7 +11,7 @@ const val REQUIRED_RADIUS = 100.0
 
 fun main(args: Array<String>) {
     val workingDir = Paths.get("").toAbsolutePath().toString()
-    val greatCircleDistance = GreatCircleDistance.getInstance()
+    val greatCircleDistance = GreatCircleDistance.instance()
     greatCircleDistance.init("${workingDir}/lib/src/main/resources")
     val results = greatCircleDistance.fetchEligibleCustomers(
         "${workingDir}/lib/src/main/resources/customers.txt",
