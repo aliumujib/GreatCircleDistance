@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.*
 import org.junit.Before
 import org.junit.Test
 import java.io.*
-import java.nio.file.Files
 
 
 class FileStoreTest {
