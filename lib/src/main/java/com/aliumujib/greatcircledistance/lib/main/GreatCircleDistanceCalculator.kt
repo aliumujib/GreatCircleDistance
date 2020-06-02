@@ -53,9 +53,10 @@ class GreatCircleDistanceCalculator(
     fun invoke(ioConfig: IOConfig, pointOfInterest: PointOfInterest, minDistance: Double): Result {
         val bufferedReader = File(ioConfig.inputFileDir).bufferedReader()
         val customerList = parser.parseCustomers(bufferedReader).map {
-            it.distance_from_location = distanceCalc.findDistanceInKm(it.latitude.toDouble(), it.longitude.toDouble(),
-                pointOfInterest.latitude, pointOfInterest.longitude)
-            it
+            it.copy(distance_from_location = distanceCalc.findDistanceInKm(
+                it.latitude.toDouble(), it.longitude.toDouble(),
+                pointOfInterest.latitude, pointOfInterest.longitude
+            ))
         }.filter {
             it.distance_from_location <= minDistance
         }.sortedBy {
